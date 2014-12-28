@@ -12,8 +12,6 @@
 * License: Do as you wish
 */
 
-//Git testing, delete later. LOL
-
 defined('ABSPATH') or die("How About NO?");
 
 //Get the plugin dir
