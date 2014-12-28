@@ -1,0 +1,482 @@
+Adelanto
+Agoura Hills
+Alameda
+Albany
+Alhambra
+Aliso Viejo
+AlturasCounty seat
+Amador City
+American Canyon
+Anaheim
+Anderson
+Angels Camp
+Antioch
+Apple Valley
+Arcadia
+Arcata
+Arroyo Grande
+Artesia
+Arvin
+Atascadero
+Atherton
+Atwater
+AuburnCounty seat
+Avalon
+Avenal
+Azusa
+BakersfieldCounty seat
+Baldwin Park
+Banning
+Barstow
+Beaumont
+Bell
+Bell Gardens
+Bellflower
+Belmont
+Belvedere
+Benicia
+Berkeley
+Beverly Hills
+Big Bear Lake
+Biggs
+Bishop
+Blue Lake
+Blythe
+Bradbury
+Brawley
+Brea
+Brentwood
+Brisbane
+Buellton
+Buena Park
+Burbank
+Burlingame
+Calabasas
+Calexico
+California City
+Calimesa
+Calipatria
+Calistoga
+Camarillo
+Campbell
+Canyon Lake
+Capitola
+Carlsbad
+Carmel-by-the-Sea
+Carpinteria
+Carson
+Cathedral City
+Ceres
+Cerritos
+Chico
+Chino
+Chino Hills
+Chowchilla
+Chula Vista
+Citrus Heights
+Claremont
+Clayton
+Clearlake
+Cloverdale
+Clovis
+Coachella
+Coalinga
+Colfax
+Colma
+Colton
+ColusaCounty seat
+Commerce
+Compton
+Concord
+Corcoran
+Corning
+Corona
+Coronado
+Corte Madera
+Costa Mesa
+Cotati
+Covina
+Crescent CityCounty seat
+Cudahy
+Culver City
+Cupertino
+Cypress
+Daly City
+Dana Point
+Danville
+Davis
+Del Mar
+Del Rey Oaks
+Delano
+Desert Hot Springs
+Diamond Bar
+Dinuba
+Dixon
+Dorris
+Dos Palos
+Downey
+Duarte
+Dublin
+Dunsmuir
+East Palo Alto
+Eastvale
+El Cajon
+El CentroCounty seat
+El Cerrito
+El Monte
+El Segundo
+Elk Grove
+Emeryville
+Encinitas
+Escalon
+Escondido
+Etna
+EurekaCounty seat
+Exeter
+Fairfax
+FairfieldCounty seat
+Farmersville
+Ferndale
+Fillmore
+Firebaugh
+Folsom
+Fontana
+Fort Bragg
+Fort Jones
+Fortuna
+Foster City
+Fountain Valley
+Fowler
+Fremont
+FresnoCounty seat
+Fullerton
+Galt
+Garden Grove
+Gardena
+Gilroy
+Glendale
+Glendora
+Goleta
+Gonzales
+Grand Terrace
+Grass Valley
+Greenfield
+Gridley
+Grover Beach
+Guadalupe
+Gustine
+Half Moon Bay
+HanfordCounty seat
+Hawaiian Gardens
+Hawthorne
+Hayward
+Healdsburg
+Hemet
+Hercules
+Hermosa Beach
+Hesperia
+Hidden Hills
+Highland
+Hillsborough
+HollisterCounty seat
+Holtville
+Hughson
+Huntington Beach
+Huntington Park
+Huron
+Imperial
+Imperial Beach
+Indian Wells
+Indio
+Industry
+Inglewood
+Ione
+Irvine
+Irwindale
+Isleton
+JacksonCounty seat
+Jurupa Valley
+Kerman
+King City
+Kingsburg
+La Cañada Flintridge
+La Habra
+La Habra Heights
+La Mesa
+La Mirada
+La Palma
+La Puente
+La Quinta
+La Verne
+Lafayette
+Laguna Beach
+Laguna Hills
+Laguna Niguel
+Laguna Woods
+Lake Elsinore
+Lake Forest
+LakeportCounty seat
+Lakewood
+Lancaster
+Larkspur
+Lathrop
+Lawndale
+Lemon Grove
+Lemoore
+Lincoln
+Lindsay
+Live Oak
+Livermore
+Livingston
+Lodi
+Loma Linda
+Lomita
+Lompoc
+Long Beach
+Loomis
+Los Alamitos
+Los Altos
+Los Altos Hills
+Los AngelesCounty seat
+Los Banos
+Los Gatos
+Loyalton
+Lynwood
+MaderaCounty seat
+Malibu
+Mammoth Lakes
+Manhattan Beach
+Manteca
+Maricopa
+Marina
+MartinezCounty seat
+MarysvilleCounty seat
+Maywood
+McFarland
+Mendota
+Menifee
+Menlo Park
+MercedCounty seat
+Mill Valley
+Millbrae
+Milpitas
+Mission Viejo
+ModestoCounty seat
+Monrovia
+Montague
+Montclair
+Monte Sereno
+Montebello
+Monterey
+Monterey Park
+Moorpark
+Moraga
+Moreno Valley
+Morgan Hill
+Morro Bay
+Mount Shasta
+Mountain View
+Murrieta
+NapaCounty seat
+National City
+Needles
+Nevada CityCounty seat
+Newark
+Newman
+Newport Beach
+Norco
+Norwalk
+Novato
+Oakdale
+OaklandCounty seat
+Oakley
+Oceanside
+Ojai
+Ontario
+Orange
+Orange Cove
+Orinda
+Orland
+OrovilleCounty seat
+Oxnard
+Pacific Grove
+Pacifica
+Palm Desert
+Palm Springs
+Palmdale
+Palo Alto
+Palos Verdes Estates
+Paradise
+Paramount
+Parlier
+Pasadena
+Paso Robles
+Patterson
+Perris
+Petaluma
+Pico Rivera
+Piedmont
+Pinole
+Pismo Beach
+Pittsburg
+Placentia
+PlacervilleCounty seat
+Pleasant Hill
+Pleasanton
+Plymouth
+Point Arena
+Pomona
+Port Hueneme
+Porterville
+Portola
+Portola Valley
+Poway
+Rancho Cordova
+Rancho Cucamonga
+Rancho Mirage
+Rancho Palos Verdes
+Rancho Santa Margarita
+Red BluffCounty seat
+ReddingCounty seat
+Redlands
+Redondo Beach
+Redwood CityCounty seat
+Reedley
+Rialto
+Richmond
+Ridgecrest
+Rio Dell
+Rio Vista
+Ripon
+Riverbank
+RiversideCounty seat
+Rocklin
+Rohnert Park
+Rolling Hills
+Rolling Hills Estates
+Rosemead
+Roseville
+Ross
+SacramentoCounty seat
+SalinasCounty seat
+San Anselmo
+San BernardinoCounty seat
+San Bruno
+San Carlos
+San Clemente
+San DiegoCounty seat
+San Dimas
+San Fernando
+San FranciscoCounty seat
+San Gabriel
+San Jacinto
+San Joaquin
+San JoseCounty seat
+San Juan Bautista
+San Juan Capistrano
+San Leandro
+San Luis ObispoCounty seat
+San Marcos
+San Marino
+San Mateo
+San Pablo
+San RafaelCounty seat
+San Ramon
+Sand City
+Sanger
+Santa AnaCounty seat
+Santa BarbaraCounty seat
+Santa Clara
+Santa Clarita
+Santa CruzCounty seat
+Santa Fe Springs
+Santa Maria
+Santa Monica
+Santa Paula
+Santa RosaCounty seat
+Santee
+Saratoga
+Sausalito
+Scotts Valley
+Seal Beach
+Seaside
+Sebastopol
+Selma
+Shafter
+Shasta Lake
+Sierra Madre
+Signal Hill
+Simi Valley
+Solana Beach
+Soledad
+Solvang
+Sonoma
+SonoraCounty seat
+South El Monte
+South Gate
+South Lake Tahoe
+South Pasadena
+South San Francisco
+St. Helena
+Stanton
+StocktonCounty seat
+Suisun City
+Sunnyvale
+SusanvilleCounty seat
+Sutter Creek
+Taft
+Tehachapi
+Tehama
+Temecula
+Temple City
+Thousand Oaks
+Tiburon
+Torrance
+Tracy
+Trinidad
+Truckee
+Tulare
+Tulelake
+Turlock
+Tustin
+Twentynine Palms
+UkiahCounty seat
+Union City
+Upland
+Vacaville
+Vallejo
+VenturaCounty seat
+Vernon
+Victorville
+Villa Park
+VisaliaCounty seat
+Vista
+Walnut
+Walnut Creek
+Wasco
+Waterford
+Watsonville
+Weed
+West Covina
+West Hollywood
+West Sacramento
+Westlake Village
+Westminster
+Westmorland
+Wheatland
+Whittier
+Wildomar
+Williams
+Willits
+WillowsCounty seat
+Windsor
+Winters
+Woodlake
+WoodlandCounty seat
+Woodside
+Yorba Linda
+Yountville
+YrekaCounty seat
+Yuba CityCounty seat
+Yucaipa
+Yucca Valley
