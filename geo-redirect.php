@@ -14,6 +14,18 @@
 
 defined('ABSPATH') or die("How About NO?");
 
+//Plugin settings page
+
+function settings_page(){
+  echo "<h1>Hello World!</h1>";
+}
+
+function geo_plugin_options(){
+  add_menu_page('Geo Plugin Settings', 'Geo Redirect Settings', 'manage_options', 'geolocation-settings', 'settings_page', 'dashicons-networking');
+}
+
+add_action('admin_menu', 'geo_plugin_options');
+
 //Get the plugin dir
 $dir = plugin_dir_path( __FILE__ );
 

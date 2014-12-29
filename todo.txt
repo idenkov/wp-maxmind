@@ -1,0 +1,5 @@
+-finish settings page
+  -options in the settings page
+  -exclude ip
+  -credentials input
+  
