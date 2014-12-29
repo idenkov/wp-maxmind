@@ -44,48 +44,49 @@ file_put_contents($ipfile, $ipc . PHP_EOL, FILE_APPEND | LOCK_EX);
     file_put_contents($ipfile, "");
     }
 
-//Register our settings
-  function georedirect_settings() {
-    register_setting( 'baw-settings-group', 'new_option_name' );
-    register_setting( 'baw-settings-group', 'some_other_option' );
-    register_setting( 'baw-settings-group', 'option_etc' );
-  }
+    function register_mysettings() {
+      //register our settings
+      register_setting( 'baw-settings-group', 'new_option_name' );
+      register_setting( 'baw-settings-group', 'some_other_option' );
+      register_setting( 'baw-settings-group', 'option_etc' );
+    }
 
-  //Plugin settings page
-  function settings_page(){
-    ?>
-    <div class="wrap">
-      <h2>Geo Redirect Settings</h2>
-      <p>This plugin uses MaxMind geoloaction database</p>
+    function settings_page() {
+      ?>
+      <div class="wrap">
+        <h2>Your Plugin Name</h2>
 
-      <form method="post" action="geo-redirect.php">
-        <?php settings_fields( 'baw-settings-group' ); ?>
-        <?php do_settings_sections( 'baw-settings-group' ); ?>
-        <table class="form-table">
-          <tr valign="top">
-            <th scope="row">New Option Name</th>
-            <td><input type="text" name="new_option_name" value="<?php echo esc_attr( get_option('new_option_name') ); ?>" /></td>
-          </tr>
+        <form method="post" action="options.php">
+          <?php settings_fields( 'baw-settings-group' ); ?>
+          <?php do_settings_sections( 'baw-settings-group' ); ?>
+          <table class="form-table">
+            <tr valign="top">
+              <th scope="row">New Option Name</th>
+              <td><input type="text" name="new_option_name" value="<?php echo esc_attr( get_option('new_option_name') ); ?>" /></td>
+            </tr>
 
-          <tr valign="top">
-            <th scope="row">Some Other Option</th>
-            <td><input type="text" name="some_other_option" value="<?php echo esc_attr( get_option('some_other_option') ); ?>" /></td>
-          </tr>
+            <tr valign="top">
+              <th scope="row">Some Other Option</th>
+              <td><input type="text" name="some_other_option" value="<?php echo esc_attr( get_option('some_other_option') ); ?>" /></td>
+            </tr>
 
-          <tr valign="top">
-            <th scope="row">Options, Etc.</th>
-            <td><input type="text" name="option_etc" value="<?php echo esc_attr( get_option('option_etc') ); ?>" /></td>
-          </tr>
-        </table>
+            <tr valign="top">
+              <th scope="row">Options, Etc.</th>
+              <td><input type="text" name="option_etc" value="<?php echo esc_attr( get_option('option_etc') ); ?>" /></td>
+            </tr>
+          </table>
 
-        <?php submit_button(); ?>
+          <?php submit_button(); ?>
 
-      </form>
-    </div>
-    <?php }
+        </form>
+      </div>
+      <?php }
+
 
   function geo_plugin_options(){
     add_menu_page('Geo Plugin Settings', 'Geo Redirect Settings', 'manage_options', 'geolocation-settings', 'settings_page', 'dashicons-networking');
   }
 
+  //call register settings function
+  add_action( 'admin_init', 'register_mysettings' );
   add_action('admin_menu', 'geo_plugin_options');
