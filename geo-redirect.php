@@ -12,25 +12,13 @@
 * License: Do as you wish
 */
 
-defined('ABSPATH') or die("How About NO?");
-
-//Plugin settings page
-
-function settings_page(){
-  echo "<h1>Hello World!</h1>";
-}
-
-function geo_plugin_options(){
-  add_menu_page('Geo Plugin Settings', 'Geo Redirect Settings', 'manage_options', 'geolocation-settings', 'settings_page', 'dashicons-networking');
-}
-
-add_action('admin_menu', 'geo_plugin_options');
+  defined('ABSPATH') or die("How About NO?");
 
 //Get the plugin dir
-$dir = plugin_dir_path( __FILE__ );
+  $dir = plugin_dir_path( __FILE__ );
 
 //Get the client IP
-$ipc =  $_SERVER['REMOTE_ADDR'];
+  $ipc =  $_SERVER['REMOTE_ADDR'];
 //echo $ipc;
 //$surl = "http://freegeoip.net/xml/".$ipc;
 
@@ -40,18 +28,64 @@ $ipc =  $_SERVER['REMOTE_ADDR'];
 
 //File for storing the IP's information
 //reading the file
-$ipfile = $dir . "ipfile.txt";
-$iplist = file_get_contents($ipfile);
-echo $ipfile;
-echo $iplist;
+  $ipfile = $dir . "ipfile.txt";
+  $iplist = file_get_contents($ipfile);
 //File size
-$size = filesize($ipfile);
-echo $iplist . " is " . $size . " bytes.";
+  $size = filesize($ipfile);
+//echo $ipfile;
+//echo $iplist;
+//echo $ipfile . " is " . $size . " bytes.";
 
-
+//Adding the clinet IP to the cache file
 file_put_contents($ipfile, $ipc . PHP_EOL, FILE_APPEND | LOCK_EX);
 
 //Delete the ipfile if it is bigger than 50kb
-if ($size > 50000) {
-  file_put_contents($ipfile, "");
+  if ($size > 50000) {
+    file_put_contents($ipfile, "");
+    }
+
+//Register our settings
+  function georedirect_settings() {
+    register_setting( 'baw-settings-group', 'new_option_name' );
+    register_setting( 'baw-settings-group', 'some_other_option' );
+    register_setting( 'baw-settings-group', 'option_etc' );
   }
+
+  //Plugin settings page
+  function settings_page(){
+    ?>
+    <div class="wrap">
+      <h2>Geo Redirect Settings</h2>
+      <p>This plugin uses MaxMind geoloaction database</p>
+
+      <form method="post" action="geo-redirect.php">
+        <?php settings_fields( 'baw-settings-group' ); ?>
+        <?php do_settings_sections( 'baw-settings-group' ); ?>
+        <table class="form-table">
+          <tr valign="top">
+            <th scope="row">New Option Name</th>
+            <td><input type="text" name="new_option_name" value="<?php echo esc_attr( get_option('new_option_name') ); ?>" /></td>
+          </tr>
+
+          <tr valign="top">
+            <th scope="row">Some Other Option</th>
+            <td><input type="text" name="some_other_option" value="<?php echo esc_attr( get_option('some_other_option') ); ?>" /></td>
+          </tr>
+
+          <tr valign="top">
+            <th scope="row">Options, Etc.</th>
+            <td><input type="text" name="option_etc" value="<?php echo esc_attr( get_option('option_etc') ); ?>" /></td>
+          </tr>
+        </table>
+
+        <?php submit_button(); ?>
+
+      </form>
+    </div>
+    <?php }
+
+  function geo_plugin_options(){
+    add_menu_page('Geo Plugin Settings', 'Geo Redirect Settings', 'manage_options', 'geolocation-settings', 'settings_page', 'dashicons-networking');
+  }
+
+  add_action('admin_menu', 'geo_plugin_options');
