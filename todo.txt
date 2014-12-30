@@ -1,5 +1,4 @@
 -finish settings page
-  -fix the post to page settings
   -options in the settings page
   -exclude ip
   -credentials input
