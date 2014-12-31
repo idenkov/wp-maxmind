@@ -2,9 +2,12 @@
   -options in the settings page
   -exclude ip
   -credentials input
-  - check if address working
+  -check if address working
+  -add towns to the file?
 
 Check if city in array!
+Logic if no response is returned from the curl
+File manipulations - open and check if the ip is in.
 
 
 MaxMind credentials
