@@ -3,3 +3,11 @@
   -exclude ip
   -credentials input
   - check if address working
+
+Check if city in array!
+
+
+MaxMind credentials
+http://www.maxmind.com/en/account
+username:   tom.sagi@gmail.com
+password:   bulgaria1234

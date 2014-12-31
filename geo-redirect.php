@@ -19,11 +19,31 @@
 
 //Get the client IP
   $ipc =  $_SERVER['REMOTE_ADDR'];
-//echo $ipc;
-//$surl = "http://freegeoip.net/xml/".$ipc;
+  //echo $ipc;
+  //$surl = "http://freegeoip.net/xml/".$ipc;
 
-//header('Location: http://reallusiondesign.com');
-//exit;
+  //header('Location: http://reallusiondesign.com');
+  //exit;
+
+//HTTP Basic authentication and MaxMind Request
+  $maxurl = "https://geoip.maxmind.com/geoip/v2.1/city/74.125.136.1";
+  $ch = curl_init($maxurl);
+  $headers = array(
+    'Content-Type:application/json',
+    'Authorization: Basic '. base64_encode("95914:DkQXbRA7Q3CZ") // <---
+  );
+  curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+  curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+  $location = curl_exec($ch);
+  curl_close($ch);
+  //echo $location;
+
+//Check if the visitors town it is in the response
+  $mmcity = json_decode($location, true);
+  $city = $mmcity['city']['names']['en'];
+  echo $mmcity;
 
 
 //File for storing the IP's information
