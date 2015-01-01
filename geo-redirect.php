@@ -26,7 +26,7 @@
   //exit;
 
 //HTTP Basic authentication and MaxMind Request
-  $maxurl = "https://geoip.maxmind.com/geoip/v2.1/city/74.125.136.1";
+  $maxurl = get_option('maxmind_service_url') . $ipc;
   $ch = curl_init($maxurl);
   $headers = array(
     'Content-Type:application/json',
@@ -38,12 +38,12 @@
   curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
   $location = curl_exec($ch);
   curl_close($ch);
-  //echo $location;
+  echo $location;
 
 //Check if the visitors town it is in the response
   $mmcity = json_decode($location, true);
   $city = $mmcity['city']['names']['en'];
-  echo $mmcity;
+  echo $city;
 
 
 //File for storing the IP's information
@@ -56,7 +56,38 @@
   //echo $iplist;
   //echo $ipfile . " is " . $size . " bytes.";
 
-//Adding the clinet IP to the cache file
+//Check if the IP is in the cache file
+  $cached_ip = FALSE;
+  $searchip = $ipc;
+  $handle = fopen($ipfile, 'r');
+  while (($buffer = fgets($handle)) !== false) {
+    if (strpos($buffer, $searchip) !== false) {
+      $cached_ip = TRUE;
+      break; // Once we find the string, we break out the loop.
+    }
+  }
+  fclose($handle);
+
+//Check if there is wp-admin in the requested URL
+  $wp_exist = FALSE;
+  if (false !== strpos($_SERVER['REQUEST_URI'],'wp-admin')) {
+    $wp_exist = TRUE;
+  }
+
+//FIX THIS!!!Check if IP address is within the plugin options
+  $ip_exist = FALSE;
+  if (strpos(get_option('your_ip'), $ipc) !== false) {
+    $ip_exist = TRUE;
+  }
+
+  //if (strpos($mmcity, 'error' )) !== false) {
+  if (in_array("error", $mmcity)) {
+    echo "There is error in the reposnse from MaxMind. Redirects wont be executed!";
+  } else {
+    echo "Connection OK";
+  }
+
+//Adding the visitor IP to the cache file
 file_put_contents($ipfile, $ipc . PHP_EOL, FILE_APPEND | LOCK_EX);
 
 //Delete the ipfile if it is bigger than 50kb
@@ -66,9 +97,10 @@ file_put_contents($ipfile, $ipc . PHP_EOL, FILE_APPEND | LOCK_EX);
 
     function register_geosettings() {
       //register our settings
-      register_setting( 'grm-settings-group', 'new_option_name' );
-      register_setting( 'grm-settings-group', 'some_other_option' );
-      register_setting( 'grm-settings-group', 'option_etc' );
+      register_setting( 'grm-settings-group', 'your_ip' );
+      register_setting( 'grm-settings-group', 'maxmind_service_url' );
+      register_setting( 'grm-settings-group', 'maxmind_userid' );
+      register_setting( 'grm-settings-group', 'maxmind_license_key');
     }
 
     function geo_settings_page() {
@@ -80,18 +112,29 @@ file_put_contents($ipfile, $ipc . PHP_EOL, FILE_APPEND | LOCK_EX);
           <?php do_settings_sections( 'grm-settings-group' ); ?>
           <table class="form-table">
             <tr valign="top">
-              <th scope="row">New Option Name|Your IP</th>
-              <td><input type="text" name="new_option_name" value="<?php echo esc_attr( get_option('new_option_name') ); ?>" /></td>
+              <th scope="row">Your IP address</th>
+              <td>
+                <input type="text" name="your_ip" value="<?php echo esc_attr( get_option('your_ip') ); ?>" />
+                <p>This where you can put IP addresses that you dont want be redirected, to use multiple addresses separate them with comma or space</p>
+              </td>
             </tr>
 
             <tr valign="top">
-              <th scope="row">Some Other Option|MaxMind URL</th>
-              <td><input type="text" name="some_other_option" value="<?php echo esc_attr( get_option('some_other_option') ); ?>" /></td>
+              <th scope="row">MaxMind URL</th>
+              <td>
+                <input type="text" name="maxmind_service_url" value="<?php echo esc_attr( get_option('maxmind_service_url') ); ?>" />
+                <p>Put the URL to MaxMind Service here. Default for precision city is <i>https://geoip.maxmind.com/geoip/v2.1/city/</i></p>
+                </td>
             </tr>
 
             <tr valign="top">
-              <th scope="row">Options, Etc.|MaxMind Credentials</th>
-              <td><input type="text" name="option_etc" value="<?php echo esc_attr( get_option('option_etc') ); ?>" /></td>
+              <th scope="row">MaxMind User ID and License key
+              </th>
+              <td>
+                <input type="text" name="maxmind_userid" value="<?php echo esc_attr( get_option('maxmind_userid') ); ?>" />
+                <input type="text" name="maxmind_license_key" value="<?php echo esc_attr( get_option('maxmind_license_key') ); ?>" />
+                <p>You can find these details on this page <a href="https://www.maxmind.com/en/my_license_key">https://www.maxmind.com/en/my_license_key</a>
+              </td>
             </tr>
           </table>
 

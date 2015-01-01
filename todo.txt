@@ -4,6 +4,10 @@
   -credentials input
   -check if address working
   -add towns to the file?
+-Fields
+  -URL to maxmind
+  -Expolude IP's
+  -Credentials
 
 Check if city in array!
 Logic if no response is returned from the curl
