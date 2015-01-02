@@ -20,7 +20,6 @@
 //Get the client IP
   $ipc =  $_SERVER['REMOTE_ADDR'];
   //echo $ipc;
-  //$surl = "http://freegeoip.net/xml/".$ipc;
 
   //header('Location: http://reallusiondesign.com');
   //exit;
@@ -30,21 +29,17 @@
   $ch = curl_init($maxurl);
   $headers = array(
     'Content-Type:application/json',
-    'Authorization: Basic '. base64_encode("95914:DkQXbRA7Q3CZ") // <---
-  );
+    'Authorization: Basic '. base64_encode("95914:DkQXbRA7Q3CZ") );
   curl_setopt($ch, CURLOPT_TIMEOUT, 5);
   curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
   curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
   $location = curl_exec($ch);
   curl_close($ch);
-  echo $location;
 
 //Check if the visitors town it is in the response
   $mmcity = json_decode($location, true);
   $city = $mmcity['city']['names']['en'];
-  echo $city;
-
 
 //File for storing the IP's information
 //reading the file
@@ -52,9 +47,6 @@
   $iplist = file_get_contents($ipfile);
 //File size
   $size = filesize($ipfile);
-  //echo $ipfile;
-  //echo $iplist;
-  //echo $ipfile . " is " . $size . " bytes.";
 
 //Check if the IP is in the cache file
   $cached_ip = FALSE;
@@ -74,17 +66,21 @@
     $wp_exist = TRUE;
   }
 
-//FIX THIS!!!Check if IP address is within the plugin options
+//Check if IP address is within the plugin options
   $ip_exist = FALSE;
   if (strpos(get_option('your_ip'), $ipc) !== false) {
     $ip_exist = TRUE;
   }
 
-  //if (strpos($mmcity, 'error' )) !== false) {
-  if (in_array("error", $mmcity)) {
-    echo "There is error in the reposnse from MaxMind. Redirects wont be executed!";
+  //if (strpos($location, 'error' )) !== false) {
+    if (strpos($location, "error") !== false || empty($location)) {
+    $mmstatus = "<p style=\"color:red;\">There is error in the reposnse from MaxMind. Redirects wont be executed!</p>";
   } else {
-    echo "Connection OK";
+    $mmstatus = "<p style=\"color:green;\">Connection OK</p>";
+  }
+  function mmstatus() {
+    global $mmstatus;
+    echo $mmstatus;
   }
 
 //Adding the visitor IP to the cache file
@@ -111,6 +107,7 @@ file_put_contents($ipfile, $ipc . PHP_EOL, FILE_APPEND | LOCK_EX);
           <?php settings_fields( 'grm-settings-group' ); ?>
           <?php do_settings_sections( 'grm-settings-group' ); ?>
           <table class="form-table">
+            <?php mmstatus(); ?>
             <tr valign="top">
               <th scope="row">Your IP address</th>
               <td>
