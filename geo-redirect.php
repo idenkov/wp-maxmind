@@ -23,22 +23,28 @@
 
   //header('Location: http://reallusiondesign.com');
   //exit;
+  //list all the variable to check for redirect here
+  //$cached_ip
+  //$wp_exist
+  //$ip_exist
 
 //HTTP Basic authentication and MaxMind Request
   $maxurl = get_option('maxmind_service_url') . $ipc;
   $ch = curl_init($maxurl);
   $headers = array(
     'Content-Type:application/json',
-    'Authorization: Basic '. base64_encode("95914:DkQXbRA7Q3CZ") );
+    //'Authorization: Basic '. base64_encode("95914:DkQXbRA7Q3CZ") );
+    'Authorization: Basic '. base64_encode(get_option(maxmind_userid) . ":" . get_option(maxmind_license_key) ) );
   curl_setopt($ch, CURLOPT_TIMEOUT, 5);
   curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
   curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-  $location = curl_exec($ch);
+  $response = curl_exec($ch);
   curl_close($ch);
+  //echo $response;
 
 //Check if the visitors town it is in the response
-  $mmcity = json_decode($location, true);
+  $mmcity = json_decode($response, true);
   $city = $mmcity['city']['names']['en'];
 
 //File for storing the IP's information
@@ -72,9 +78,8 @@
     $ip_exist = TRUE;
   }
 
-  //if (strpos($location, 'error' )) !== false) {
-    if (strpos($location, "error") !== false || empty($location)) {
-    $mmstatus = "<p style=\"color:red;\">There is error in the reposnse from MaxMind. Redirects wont be executed!</p>";
+  if (strpos($response, "error") !== false || empty($response)) {
+    $mmstatus = "<p style=\"color:red;\">There is error in the response from MaxMind. Redirects wont be executed!</p>";
   } else {
     $mmstatus = "<p style=\"color:green;\">Connection OK</p>";
   }
@@ -112,7 +117,7 @@ file_put_contents($ipfile, $ipc . PHP_EOL, FILE_APPEND | LOCK_EX);
               <th scope="row">Your IP address</th>
               <td>
                 <input type="text" name="your_ip" value="<?php echo esc_attr( get_option('your_ip') ); ?>" />
-                <p>This where you can put IP addresses that you dont want be redirected, to use multiple addresses separate them with comma or space</p>
+                <p>This is where you can put IP addresses that you dont want be redirected, to use multiple addresses separate them with comma or space</p>
               </td>
             </tr>
 
