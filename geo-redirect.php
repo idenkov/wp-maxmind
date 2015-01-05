@@ -22,11 +22,12 @@
   //echo $ipc;
   $cal_list = $dir . "cal_locations.txt";
 
-//File for storing the IP's information
+//Files for storing the IP's information
 //reading the file
   $ipfile_cal = $dir . "ip_cal.txt";
   $ipfile_rest = $dir . "ip_rest.txt";
-//Not sure if still needs this
+  $delete_size = 50000;
+//Not sure if I still needs this
   $iplist_cal = file_get_contents($ipfile_cal);
   $iplist_rest = file_get_contents($ipfile_rest);
 //File size
@@ -34,10 +35,10 @@
   $size_rest = filesize($ipfile_rest);
 
 //Delete the ipfile_cal content if it is bigger than 50kb
-  if ($size_cal > 50000) {
+  if ($size_cal > $delete_size) {
     file_put_contents($ipfile_cal, "");
   }
-  if ($size_rest > 50000){
+  if ($size_rest > $delete_size){
     file_put_contents($ipfile_rest, "");
   }
 
@@ -61,7 +62,7 @@
       break; // Once we find the string, we break out the loop.
     }
   }
-  fclose($handle);
+  fclose($handle_rest);
 
   //Adding the visitor IP to the cache file
   if (!$cached_cal && !$cached_rest){
@@ -118,8 +119,10 @@
     $ip_exist = TRUE;
   }
 
-
-  //header('Location:' . get_option('maxmind_userid'));
+  //$location = header('Location: http://reallusiondesign.com');
+  //wp_redirect( $location );
+  //exit;
+  //header('Location:' . get_option('redirect_url'));
   //exit;
   //list all the variable to check for redirect here
   //$cached_cal
@@ -203,3 +206,4 @@
 //call register settings function
   add_action( 'admin_init', 'register_geosettings' );
   add_action('admin_menu', 'geo_plugin_options');
+  ?>
