@@ -20,40 +20,54 @@
 //Get the client IP
   $ipc =  $_SERVER['REMOTE_ADDR'];
   //echo $ipc;
-
+  $cal_list = $dir . "cal_locations.txt";
 
 //File for storing the IP's information
 //reading the file
-  $ipfile = $dir . "ipfile.txt";
-  $cali_list = $dir . "cal_locations.txt";
-  $iplist = file_get_contents($ipfile);
+  $ipfile_cal = $dir . "ip_cal.txt";
+  $ipfile_rest = $dir . "ip_rest.txt";
+//Not sure if still needs this
+  $iplist_cal = file_get_contents($ipfile_cal);
+  $iplist_rest = file_get_contents($ipfile_rest);
 //File size
-  $size = filesize($ipfile);
+  $size_cal = filesize($ipfile_cal);
+  $size_rest = filesize($ipfile_rest);
 
-//Delete the ipfile content if it is bigger than 50kb
-  if ($size > 50000) {
-    file_put_contents($ipfile, "");
+//Delete the ipfile_cal content if it is bigger than 50kb
+  if ($size_cal > 50000) {
+    file_put_contents($ipfile_cal, "");
+  }
+  if ($size_rest > 50000){
+    file_put_contents($ipfile_rest, "");
   }
 
-//Check if the IP is in the cache file
-  $cached_ip = FALSE;
-  $searchip = $ipc;
-  $handle = fopen($ipfile, 'r');
-  while (($buffer = fgets($handle)) !== false) {
-    if (strpos($buffer, $searchip) !== false) {
-      $cached_ip = TRUE;
+//Check if the IP is in the California cache file
+  $cached_cal = FALSE;
+  $handle_cal = fopen($ipfile_cal, 'r');
+  while (($buffer_cal = fgets($handle_cal)) !== false) {
+    if (strpos($buffer_cal, $ipc) !== false) {
+      $cached_cal = TRUE;
+      break; // Once we find the string, we break out the loop.
+    }
+  }
+  fclose($handle_cal);
+
+//Check if the IP is in the cache file for the rest
+  $cached_rest = FALSE;
+  $handle_rest = fopen($ipfile_rest, 'r');
+  while (($buffer_rest = fgets($handle_rest)) !== false) {
+    if (strpos($buffer_rest, $ipc) !== false) {
+      $cached_rest = TRUE;
       break; // Once we find the string, we break out the loop.
     }
   }
   fclose($handle);
 
   //Adding the visitor IP to the cache file
-  if (!$cached_ip){
-    file_put_contents($ipfile, $ipc . PHP_EOL, FILE_APPEND | LOCK_EX);
-
+  if (!$cached_cal && !$cached_rest){
     //HTTP Basic authentication and MaxMind Request
     //Need if/else or function somewhere here to execute the request only if the IP is not in the cache file.
-    $maxurl = get_option('maxmind_service_url') . "46.10.117.238";
+    $maxurl = get_option('maxmind_service_url') . $ipc;
     $ch = curl_init($maxurl);
     $headers = array(
       'Content-Type:application/json',
@@ -72,16 +86,23 @@
       $city = $mmcity['city']['names']['en'];
 
       //Check if the town is within the file
-      $in_cali = FALSE;
+      $in_cal = FALSE;
       $searchip = $city;
-      $handle_town = fopen($cali_list, 'r');
+      $handle_town = fopen($cal_list, 'r');
       while (($buffer = fgets($handle_town)) !== false) {
         if (strpos($buffer, $searchip) !== false) {
-          $in_cali = TRUE;
+          $in_cal = TRUE;
           break; // Once we find the string, we break out the loop.
         }
       }
-      fclose($handle);
+      fclose($handle_town);
+  }
+
+  if (!$cached_cal && $in_cal){
+    file_put_contents($ipfile_cal, $ipc . PHP_EOL, FILE_APPEND | LOCK_EX);
+  }
+  elseif (!$cached_rest && !$in_cal){
+    file_put_contents($ipfile_rest, $ipc . PHP_EOL, FILE_APPEND | LOCK_EX);
   }
 
 
@@ -101,10 +122,10 @@
   //header('Location:' . get_option('maxmind_userid'));
   //exit;
   //list all the variable to check for redirect here
-  //$cached_ip
+  //$cached_cal
   //$wp_exist
   //$ip_exist
-  //$in_cali
+  //$in_cal
 
   if (strpos($response, "error") !== false || empty($response)) {
     $mmstatus = "<p style=\"color:red;\">There is error in the response from MaxMind. Redirects wont be executed!</p>";
