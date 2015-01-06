@@ -19,6 +19,7 @@
 
 //Get the client IP
   $ipc =  $_SERVER['REMOTE_ADDR'];
+  $in_cal = FALSE;
   //echo $ipc;
   $cal_list = $dir . "cal_locations.txt";
 
@@ -27,9 +28,6 @@
   $ipfile_cal = $dir . "ip_cal.txt";
   $ipfile_rest = $dir . "ip_rest.txt";
   $delete_size = 50000;
-//Not sure if I still needs this
-  $iplist_cal = file_get_contents($ipfile_cal);
-  $iplist_rest = file_get_contents($ipfile_rest);
 //File size
   $size_cal = filesize($ipfile_cal);
   $size_rest = filesize($ipfile_rest);
@@ -67,7 +65,6 @@
   //Adding the visitor IP to the cache file
   if (!$cached_cal && !$cached_rest){
     //HTTP Basic authentication and MaxMind Request
-    //Need if/else or function somewhere here to execute the request only if the IP is not in the cache file.
     $maxurl = get_option('maxmind_service_url') . $ipc;
     $ch = curl_init($maxurl);
     $headers = array(
@@ -79,30 +76,31 @@
       curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
       $response = curl_exec($ch);
       curl_close($ch);
-      echo $response;
+      global $response;
 
-      //Get the visitor town
-      //Need to check if the town it is within the file!!!
+    //Get the visitor town    //$maxurl = get_option('maxmind_service_url') . "46.10.117.238";
+    //Need to check if the town it is within the file!!!
       $mmcity = json_decode($response, true);
+      global $city;
       $city = $mmcity['city']['names']['en'];
 
-      //Check if the town is within the file
-      $in_cal = FALSE;
-      $searchip = $city;
-      $handle_town = fopen($cal_list, 'r');
-      while (($buffer = fgets($handle_town)) !== false) {
-        if (strpos($buffer, $searchip) !== false) {
-          $in_cal = TRUE;
-          break; // Once we find the string, we break out the loop.
-        }
-      }
-      fclose($handle_town);
   }
+
+  //Check if the town is within the file
+  $searchip = $city;
+  $handle_town = fopen($cal_list, 'r');
+  while (($buffer = fgets($handle_town)) !== false) {
+    if (strpos($buffer, $searchip) !== false) {
+      $in_cal = TRUE;
+      break; // Once we find the string, we break out the loop.
+    }
+  }
+  fclose($handle_town);
 
   if (!$cached_cal && $in_cal){
     file_put_contents($ipfile_cal, $ipc . PHP_EOL, FILE_APPEND | LOCK_EX);
   }
-  elseif (!$cached_rest && !$in_cal){
+  if (!$cached_rest && !$cached_cal && !$in_cal){
     file_put_contents($ipfile_rest, $ipc . PHP_EOL, FILE_APPEND | LOCK_EX);
   }
 
@@ -119,22 +117,18 @@
     $ip_exist = TRUE;
   }
 
-  //$location = header('Location: http://reallusiondesign.com');
-  //wp_redirect( $location );
-  //exit;
-  //header('Location:' . get_option('redirect_url'));
-  //exit;
-  //list all the variable to check for redirect here
-  //$cached_cal
-  //$wp_exist
-  //$ip_exist
-  //$in_cal
-
-  if (strpos($response, "error") !== false || empty($response)) {
-    $mmstatus = "<p style=\"color:red;\">There is error in the response from MaxMind. Redirects wont be executed!</p>";
-  } else {
-    $mmstatus = "<p style=\"color:green;\">Connection OK</p>";
+  $redirect_url = get_option('redirect_url');
+  if (!$wp_exist && !$in_cal && !$ip_exist && $redirect_url){
+    $location = header('Location:' . get_option('redirect_url'));
+    wp_redirect( $location );
+    exit;
   }
+
+  // if (strpos($response, "error") !== false || empty($response)) {
+  //   $mmstatus = "<p style=\"color:red;\">There is error in the response from MaxMind. Redirects wont be executed!</p>";
+  // } else {
+  //   $mmstatus = "<p style=\"color:green;\">Connection OK</p>";
+  // }
   function mmstatus() {
     global $mmstatus;
     echo $mmstatus;
@@ -156,12 +150,12 @@
           <?php settings_fields( 'grm-settings-group' ); ?>
           <?php do_settings_sections( 'grm-settings-group' ); ?>
           <table class="form-table">
-            <?php mmstatus(); ?>
+            <?php //mmstatus(); ?>
 
             <tr valign="top">
               <th scope="row">Redirect to:</th>
               <td>
-                <input type="text" name="your_ip" value="<?php echo esc_attr( get_option('redirect_url') ); ?>" />
+                <input type="text" name="redirect_url" value="<?php echo esc_attr( get_option('redirect_url') ); ?>" />
                 <p>This is the URL where you visitors will be redirected to. It should be complete, for example <i>http://domain.com/page-name.html</i></p>
               </td>
             </tr>
