@@ -19,7 +19,6 @@
 
 //Get the client IP
   $ipc =  $_SERVER['REMOTE_ADDR'];
-  $in_cal = FALSE;
   //echo $ipc;
   $cal_list = $dir . "cal_locations.txt";
 
@@ -83,20 +82,22 @@
       $mmcity = json_decode($response, true);
       global $city;
       $city = $mmcity['city']['names']['en'];
-
-  }
-
-  //Check if the town is within the file
-  $searchip = $city;
-  $handle_town = fopen($cal_list, 'r');
-  while (($buffer = fgets($handle_town)) !== false) {
-    if (strpos($buffer, $searchip) !== false) {
+      
+     //Check if the town is within the file
+      $in_cal = FALSE;
+	  $searchip = $city;
+	  $handle_town = fopen($cal_list, 'r');
+	  while (($buffer = fgets($handle_town)) !== false) {
+		if (strpos($buffer, $searchip) !== false) {
       $in_cal = TRUE;
+      global $in_cal;
       break; // Once we find the string, we break out the loop.
     }
   }
   fclose($handle_town);
 
+  }
+  
   if (!$cached_cal && $in_cal){
     file_put_contents($ipfile_cal, $ipc . PHP_EOL, FILE_APPEND | LOCK_EX);
   }
@@ -118,7 +119,7 @@
   }
 
   $redirect_url = get_option('redirect_url');
-  if (!$wp_exist && !$in_cal && !$ip_exist && $redirect_url){
+  if (!$wp_exist && !$in_cal && !$cached_cal && !$ip_exist && $redirect_url){
     $location = header('Location:' . get_option('redirect_url'));
     wp_redirect( $location );
     exit;
